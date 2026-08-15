@@ -1,0 +1,2 @@
+# ESP32-S3 is BLE-only; no classic-BT controller options apply here.
+CONFIG_ESPTOOLPY_FLASHSIZE_4MB=y

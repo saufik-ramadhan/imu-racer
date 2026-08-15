@@ -1,0 +1,18 @@
+# ESP-IDF build output and generated config
+firmware/build/
+firmware/sdkconfig
+firmware/sdkconfig.old
+firmware/managed_components/
+firmware/dependencies.lock
+
+# Node / Vite
+web/node_modules/
+web/dist/
+
+# Local agent/editor config — contains absolute paths from one machine
+.claude/
+
+# Editor and OS
+.DS_Store
+Thumbs.db
+*.local

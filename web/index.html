@@ -1,0 +1,77 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+    <title>IMU Racer</title>
+    <link rel="stylesheet" href="/src/style.css" />
+  </head>
+  <body>
+    <div id="app">
+      <div id="stage">
+      <canvas id="scene"></canvas>
+
+      <div id="hud" class="hidden">
+        <div class="hud-left">
+          <div class="hud-label">SCORE</div>
+          <div id="score" class="hud-value">0</div>
+        </div>
+        <div class="hud-right">
+          <div class="hud-label">SPEED</div>
+          <div id="speed" class="hud-value">1.0<span class="unit">x</span></div>
+        </div>
+      </div>
+
+      <div id="tilt" class="hidden">
+        <div id="tilt-track"><div id="tilt-thumb"></div></div>
+      </div>
+
+      <!-- ---------------------------- Title screen ---------------------------- -->
+      <div id="menu" class="overlay">
+        <h1>IMU<span>RACER</span></h1>
+        <p class="tagline">Tilt to dodge. Survive as long as you can.</p>
+
+        <div class="panel">
+          <button id="btn-play" class="primary">PLAY</button>
+          <button id="btn-connect">CONNECT CONTROLLER</button>
+          <div id="ble-status" class="status">Keyboard: <kbd>&larr;</kbd> <kbd>&rarr;</kbd> &nbsp;·&nbsp; or drag on touch</div>
+        </div>
+
+        <div class="panel scores">
+          <h2>HIGH SCORES</h2>
+          <table id="score-table">
+            <tbody></tbody>
+          </table>
+        </div>
+
+        <p class="footnote">
+          Controller support needs Chrome or Edge over HTTPS.
+          The game is fully playable without it.
+        </p>
+      </div>
+
+      <!-- --------------------------- Game over screen -------------------------- -->
+      <div id="gameover" class="overlay hidden">
+        <h1 class="crashed">CRASHED</h1>
+        <div class="panel result">
+          <div class="result-row"><span>Score</span><strong id="final-score">0</strong></div>
+          <div class="result-row"><span>Dodged</span><strong id="final-dodged">0</strong></div>
+          <div class="result-row"><span>Top speed</span><strong id="final-speed">1.0x</strong></div>
+          <div id="new-best" class="new-best hidden">NEW BEST</div>
+        </div>
+        <div class="panel">
+          <button id="btn-again" class="primary">RACE AGAIN</button>
+          <button id="btn-menu">MENU</button>
+        </div>
+      </div>
+
+      <div id="loading" class="overlay">
+        <div class="spinner"></div>
+        <p>Loading…</p>
+      </div>
+      </div>
+    </div>
+
+    <script type="module" src="/src/main.js"></script>
+  </body>
+</html>
