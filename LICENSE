@@ -24,6 +24,18 @@ SOFTWARE.
 
 NOTE ON BUNDLED ARTWORK
 
-The files in assets/ are third-party artwork whose licence has not been
-verified. They are NOT covered by the MIT licence above. See the "Credits and
-licensing" section of README.md before redistributing.
+The files in assets/ are third-party artwork and are NOT covered by the MIT
+licence above. They remain under their original licences:
+
+  Car - Racer            Bahi         CC-BY 3.0
+  https://opengameart.org/content/car-racer
+
+  Toon Road Texture      da_st        CC-BY 3.0
+  https://opengameart.org/content/toon-road-texture
+  The author asks for a link to https://www.davidstenfors.com
+
+  Simple Explosion       NiceGraphic  CC0
+  https://opengameart.org/content/simple-explosion
+
+CC-BY 3.0 requires that attribution accompany the work wherever it is
+redistributed, including in a built copy of the game. See docs/CREDITS.md.

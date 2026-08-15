@@ -276,11 +276,19 @@ means a stale pairing key is cached somewhere.
 The firmware began as the ESP-IDF `blink` example (Apache-2.0) and has been
 rewritten; the LED code is gone entirely.
 
-> **Artwork provenance is unconfirmed.** The car sheet, road texture and
-> explosion strip in `assets/` came from an existing asset pack and their
-> licence has not been verified. Before publishing this anywhere public, confirm
-> the source and licence and record it here — or swap in artwork with a known
-> licence. Metadata inside `cars_racer.svg` suggests an author named "Dovile",
-> which is a starting point for tracing it.
+All artwork comes from [OpenGameArt.org](https://opengameart.org):
 
-Project code is MIT licensed — see [`LICENSE`](LICENSE).
+| Asset | Title | Author | Licence |
+| --- | --- | --- | --- |
+| Cars | [Car — Racer](https://opengameart.org/content/car-racer) | Bahi | CC-BY 3.0 |
+| Road | [Toon Road Texture](https://opengameart.org/content/toon-road-texture) | [da_st](https://www.davidstenfors.com) | CC-BY 3.0 |
+| Explosion | [Simple Explosion](https://opengameart.org/content/simple-explosion) | NiceGraphic | CC0 |
+
+Two of the three are **CC-BY 3.0**, so attribution has to travel with the work
+wherever it is redistributed — the built game included, not just this
+repository. That is why the credits also appear on the game's title screen. Full
+detail, including what was changed in each asset, is in
+[`docs/CREDITS.md`](docs/CREDITS.md).
+
+Project code is MIT licensed — see [`LICENSE`](LICENSE). The artwork is not
+covered by it; it stays under the licences above.

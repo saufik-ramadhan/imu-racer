@@ -290,11 +290,19 @@ sambungan, `0x206` berarti ada kunci pemasangan usang yang masih tersimpan.
 Firmware ini berawal dari contoh `blink` milik ESP-IDF (Apache-2.0) dan telah
 ditulis ulang; kode LED-nya sudah dihapus sepenuhnya.
 
-> **Asal-usul aset gambar belum dipastikan.** Lembar mobil, tekstur jalan, dan
-> strip ledakan di `assets/` berasal dari paket aset yang sudah ada dan
-> lisensinya belum diverifikasi. Sebelum memublikasikan ini di tempat umum,
-> pastikan sumber dan lisensinya lalu catat di sini — atau ganti dengan karya
-> yang lisensinya jelas. Metadata di dalam `cars_racer.svg` menyebut nama
-> "Dovile", yang bisa menjadi titik awal penelusuran.
+Seluruh karya seni berasal dari [OpenGameArt.org](https://opengameart.org):
 
-Kode proyek berlisensi MIT — lihat [`LICENSE`](LICENSE).
+| Aset | Judul | Penulis | Lisensi |
+| --- | --- | --- | --- |
+| Mobil | [Car — Racer](https://opengameart.org/content/car-racer) | Bahi | CC-BY 3.0 |
+| Jalan | [Toon Road Texture](https://opengameart.org/content/toon-road-texture) | [da_st](https://www.davidstenfors.com) | CC-BY 3.0 |
+| Ledakan | [Simple Explosion](https://opengameart.org/content/simple-explosion) | NiceGraphic | CC0 |
+
+Dua dari tiga aset berlisensi **CC-BY 3.0**, sehingga atribusinya harus ikut ke
+mana pun karya itu didistribusikan ulang — termasuk pada game hasil build, bukan
+hanya repositori ini. Karena itu kreditnya juga tampil di layar judul game.
+Rincian lengkap, termasuk perubahan yang dilakukan pada tiap aset, ada di
+[`docs/CREDITS.id.md`](docs/CREDITS.id.md).
+
+Kode proyek berlisensi MIT — lihat [`LICENSE`](LICENSE). Karya seninya tidak
+tercakup lisensi itu; keduanya tetap tunduk pada lisensi di atas.
