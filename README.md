@@ -7,6 +7,9 @@ steering value, and streams it over Bluetooth Low Energy. A three.js game in the
 browser picks it up through the Web Bluetooth API — no driver, no app, no
 install. Tilt the board, the car moves.
 
+**▶ Play it: https://saufik.web.id/imu-racer/** — no hardware needed, the
+keyboard and touch controls work on their own.
+
 *[Read this in Indonesian → `README.id.md`](README.id.md)*
 
 ---
@@ -216,6 +219,21 @@ or connecting fails with a policy error:
 ```html
 <iframe src="/games/imu-racer/" allow="bluetooth" width="405" height="720"></iframe>
 ```
+
+### The live copy
+
+The deployed game is a copy of `web/dist/` sitting in the `imu-racer/` folder of
+the [`personal-web`](https://github.com/saufik-ramadhan/personal-web)
+repository, which GitHub Pages serves at the custom domain. To refresh it after
+a change:
+
+```bash
+cd web && npm run build
+# then replace personal-web/imu-racer/ with the contents of web/dist/
+```
+
+It is a copy, not a submodule, so it does not update itself — rebuild and copy
+again or the deployed version quietly goes stale.
 
 ### Browser support
 

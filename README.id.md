@@ -7,6 +7,9 @@ menjadi nilai kemudi, lalu mengirimkannya lewat Bluetooth Low Energy. Game
 three.js di browser menerimanya melalui Web Bluetooth API — tanpa driver, tanpa
 aplikasi, tanpa instalasi. Miringkan papannya, mobilnya bergerak.
 
+**▶ Mainkan: https://saufik.web.id/imu-racer/** — tanpa perangkat keras pun
+bisa, kendali papan ketik dan sentuh berfungsi sendiri.
+
 *[Baca dalam bahasa Inggris → `README.md`](README.md)*
 
 ---
@@ -226,6 +229,21 @@ memberikannya, atau proses sambung akan gagal dengan galat kebijakan:
 ```html
 <iframe src="/games/imu-racer/" allow="bluetooth" width="405" height="720"></iframe>
 ```
+
+### Salinan yang tayang
+
+Game yang tayang adalah salinan `web/dist/` yang diletakkan di folder
+`imu-racer/` pada repositori
+[`personal-web`](https://github.com/saufik-ramadhan/personal-web), yang disajikan
+GitHub Pages lewat domain kustom. Untuk memperbaruinya setelah ada perubahan:
+
+```bash
+cd web && npm run build
+# lalu ganti isi personal-web/imu-racer/ dengan isi web/dist/
+```
+
+Ini salinan, bukan submodule, jadi tidak memperbarui diri sendiri — build dan
+salin ulang, atau versi yang tayang diam-diam menjadi usang.
 
 ### Dukungan peramban
 
