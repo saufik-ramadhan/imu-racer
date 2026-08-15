@@ -7,6 +7,8 @@ steering value, and streams it over Bluetooth Low Energy. A three.js game in the
 browser picks it up through the Web Bluetooth API — no driver, no app, no
 install. Tilt the board, the car moves.
 
+![Demo](docs/imu-racer-15.gif)
+
 **▶ Play it: https://saufik.web.id/imu-racer/** — no hardware needed, the
 keyboard and touch controls work on their own.
 
