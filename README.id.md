@@ -52,10 +52,11 @@ dimainkan tanpanya.
 ## Struktur repositori
 
 ```
-firmware/   Proyek ESP-IDF v6.0.2 — sensor, OLED, peripheral BLE
-web/        Game Vite + three.js — render, klien Web Bluetooth
-assets/     Aset gambar asli (lembar mobil, tekstur jalan, ledakan)
-docs/       Rincian protokol, perangkat keras, dan pemecahan masalah
+firmware/esp32s3/  Proyek ESP-IDF v6.0.2 — sensor, OLED, peripheral BLE
+firmware/stm32h7/  Proyek STM32CubeIDE — pengendali yang sama lewat USB serial
+web/               Game Vite + three.js — render, klien peramban
+assets/            Aset gambar asli (lembar mobil, tekstur jalan, ledakan)
+docs/              Rincian protokol, perangkat keras, dan pemecahan masalah
 ```
 
 ## Perangkat keras
@@ -81,7 +82,7 @@ pemindaian jalur tidak menemukan apa pun, tambahkan resistor 4,7 kΩ ke 3V3 pada
 SDA dan SCL.
 
 Definisi pin ada di bagian atas
-[`firmware/main/i2c_bus.h`](firmware/main/i2c_bus.h).
+[`firmware/esp32s3/main/i2c_bus.h`](firmware/esp32s3/main/i2c_bus.h).
 
 ### Apa saja isi GY-87
 
@@ -104,10 +105,16 @@ melaporkan percepatan, dan kemudi memang hanya membutuhkan akselerometer.
 
 ## Firmware
 
+Ada dua papan yang menjalankan pengendali ini. Versi ESP32-S3 di bawah adalah
+yang asli; [port STM32H7](firmware/stm32h7) mengirim telemetri yang sama lewat
+virtual COM port ST-LINK, bukan BLE, karena cip itu tidak punya radio. Halaman
+web menyediakan tombol sambung untuk masing-masing. Lihat
+[`firmware/`](firmware) untuk perbandingannya.
+
 Dibangun dan diuji dengan **ESP-IDF v6.0.2**, target **esp32s3**.
 
 ```bash
-cd firmware
+cd firmware/esp32s3
 idf.py set-target esp32s3
 idf.py -p COM11 flash monitor
 ```
@@ -116,11 +123,11 @@ idf.py -p COM11 flash monitor
 
 | Berkas | Peran |
 | --- | --- |
-| [`main.c`](firmware/main/main.c) | loop kendali, perhitungan kemiringan |
-| [`i2c_bus.c`](firmware/main/i2c_bus.c) | penyiapan jalur, pemindai alamat, pembantu register |
-| [`gy87.c`](firmware/main/gy87.c) | MPU6050, HMC5883L/QMC5883L, BMP180 |
-| [`ssd1306.c`](firmware/main/ssd1306.c) | driver layar, framebuffer, fon 5×7 |
-| [`ble_controller.c`](firmware/main/ble_controller.c) | peripheral NimBLE |
+| [`main.c`](firmware/esp32s3/main/main.c) | loop kendali, perhitungan kemiringan |
+| [`i2c_bus.c`](firmware/esp32s3/main/i2c_bus.c) | penyiapan jalur, pemindai alamat, pembantu register |
+| [`gy87.c`](firmware/esp32s3/main/gy87.c) | MPU6050, HMC5883L/QMC5883L, BMP180 |
+| [`ssd1306.c`](firmware/esp32s3/main/ssd1306.c) | driver layar, framebuffer, fon 5×7 |
+| [`ble_controller.c`](firmware/esp32s3/main/ble_controller.c) | peripheral NimBLE |
 
 ### Ritme loop
 

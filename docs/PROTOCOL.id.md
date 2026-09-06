@@ -3,7 +3,7 @@
 Kesepakatan antara firmware dan peramban. Didefinisikan tepat di dua tempat, dan
 keduanya harus diubah bersama-sama:
 
-- `firmware/main/ble_controller.c` — sisi peripheral
+- `firmware/esp32s3/main/ble_controller.c` — sisi peripheral
 - `web/src/ble.js` — klien Web Bluetooth
 
 ## Susunan GATT
