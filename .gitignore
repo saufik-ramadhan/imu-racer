@@ -1,9 +1,9 @@
 # ESP-IDF build output and generated config
-firmware/build/
-firmware/sdkconfig
-firmware/sdkconfig.old
-firmware/managed_components/
-firmware/dependencies.lock
+firmware/esp32s3/build/
+firmware/esp32s3/sdkconfig
+firmware/esp32s3/sdkconfig.old
+firmware/esp32s3/managed_components/
+firmware/esp32s3/dependencies.lock
 
 # Node / Vite
 web/node_modules/

@@ -52,10 +52,11 @@ any iOS browser, so a public page needs to work without it.
 ## Repository layout
 
 ```
-firmware/   ESP-IDF v6.0.2 project — sensors, OLED, BLE peripheral
-web/        Vite + three.js game — rendering, Web Bluetooth client
-assets/     Original artwork (car sheet, road texture, explosion strip)
-docs/       Protocol, hardware and troubleshooting detail
+firmware/esp32s3/  ESP-IDF v6.0.2 project — sensors, OLED, BLE peripheral
+firmware/stm32h7/  STM32CubeIDE project — the same controller over USB serial
+web/               Vite + three.js game — rendering, browser clients
+assets/            Original artwork (car sheet, road texture, explosion strip)
+docs/              Protocol, hardware and troubleshooting detail
 ```
 
 ## Hardware
@@ -78,7 +79,7 @@ Two separate I²C buses, so a slow display refresh never delays a sensor read:
 Both devices run at 3.3 V. Internal pull-ups are enabled but weak — if a bus
 scan comes up empty, add 4.7 kΩ resistors to 3V3 on SDA and SCL.
 
-Pins live at the top of [`firmware/main/i2c_bus.h`](firmware/main/i2c_bus.h).
+Pins live at the top of [`firmware/esp32s3/main/i2c_bus.h`](firmware/esp32s3/main/i2c_bus.h).
 
 ### What is actually on a GY-87
 
@@ -101,10 +102,16 @@ acceleration, and steering only needs the accelerometer anyway.
 
 ## Firmware
 
+Two boards run this controller. The ESP32-S3 build below is the original; the
+[STM32H7 port](firmware/stm32h7) sends the same telemetry over the ST-LINK
+virtual COM port instead of BLE, because that part has no radio. The web page
+offers a connect button for each. See [`firmware/`](firmware) for the
+comparison.
+
 Built and tested against **ESP-IDF v6.0.2**, target **esp32s3**.
 
 ```bash
-cd firmware
+cd firmware/esp32s3
 idf.py set-target esp32s3
 idf.py -p COM11 flash monitor
 ```
@@ -113,11 +120,11 @@ idf.py -p COM11 flash monitor
 
 | File | Role |
 | --- | --- |
-| [`main.c`](firmware/main/main.c) | control loop, tilt maths |
-| [`i2c_bus.c`](firmware/main/i2c_bus.c) | bus setup, address scanner, register helpers |
-| [`gy87.c`](firmware/main/gy87.c) | MPU6050, HMC5883L/QMC5883L, BMP180 |
-| [`ssd1306.c`](firmware/main/ssd1306.c) | display driver, framebuffer, 5×7 font |
-| [`ble_controller.c`](firmware/main/ble_controller.c) | NimBLE peripheral |
+| [`main.c`](firmware/esp32s3/main/main.c) | control loop, tilt maths |
+| [`i2c_bus.c`](firmware/esp32s3/main/i2c_bus.c) | bus setup, address scanner, register helpers |
+| [`gy87.c`](firmware/esp32s3/main/gy87.c) | MPU6050, HMC5883L/QMC5883L, BMP180 |
+| [`ssd1306.c`](firmware/esp32s3/main/ssd1306.c) | display driver, framebuffer, 5×7 font |
+| [`ble_controller.c`](firmware/esp32s3/main/ble_controller.c) | NimBLE peripheral |
 
 ### Loop timing
 

@@ -22,6 +22,16 @@ export function isSupported() {
 }
 
 /**
+ * Shown when the chooser comes back empty or cancelled. An empty list almost
+ * always means something else is holding the connection, since a peripheral
+ * stops advertising while connected.
+ */
+export const notFoundHint =
+  'No controller picked. If the list was empty: the board only talks to one '
+  + 'thing at a time, so disconnect it from any other Bluetooth page or the OS '
+  + 'settings, and check it is still advertising.';
+
+/**
  * Why a connection can't be offered, or null when it can. Web Bluetooth is
  * gated on a secure context, so a plain-http deployment silently has no
  * navigator.bluetooth at all.

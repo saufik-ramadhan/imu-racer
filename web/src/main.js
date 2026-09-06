@@ -1,7 +1,8 @@
 import { loadAssets } from './assets.js';
 import { Game, State } from './game.js';
 import { Input } from './input.js';
-import { Controller, unsupportedReason } from './ble.js';
+import * as ble from './ble.js';
+import * as usb from './serial.js';
 import * as scores from './scores.js';
 
 const $ = (id) => document.getElementById(id);
@@ -19,6 +20,7 @@ const el = {
   loading: $('loading'),
   play: $('btn-play'),
   connect: $('btn-connect'),
+  connectUsb: $('btn-connect-usb'),
   again: $('btn-again'),
   toMenu: $('btn-menu'),
   bleStatus: $('ble-status'),
@@ -43,52 +45,63 @@ async function boot() {
 
   const game = new Game(el.canvas, assets, el.stage);
   const input = new Input(el.stage);
-  const controller = new Controller();
-  input.attachController(controller);
+
+  // Two boards, two transports. The ESP32-S3 build advertises over BLE; the
+  // STM32H7 build has no radio and streams the same packets down the ST-LINK
+  // virtual COM port. Whichever connects first becomes the active controller.
+  const controllers = {
+    ble: new ble.Controller(),
+    usb: new usb.Controller(),
+  };
+  input.attachController(controllers.ble);
 
   hide(el.loading);
   scores.render(el.scoreBody, scores.load());
 
-  /* ------------------------------ Bluetooth ------------------------------ */
-  const reason = unsupportedReason();
-  if (reason) {
-    el.connect.disabled = true;
-    el.connect.textContent = 'CONTROLLER UNAVAILABLE';
-    el.bleStatus.textContent = reason;
+  /* ----------------------------- Controllers ----------------------------- */
+  function wireLink(button, controller, mod, scanning, idleLabel) {
+    const reason = mod.unsupportedReason();
+    if (reason) {
+      button.disabled = true;
+      button.textContent = 'UNAVAILABLE';
+      el.bleStatus.textContent = reason;
+      return;
+    }
+
+    button.addEventListener('click', async () => {
+      button.disabled = true;
+      el.bleStatus.className = 'status';
+      el.bleStatus.textContent = scanning;
+      try {
+        const name = await controller.connect();
+        input.attachController(controller);
+        el.bleStatus.className = 'status ok';
+        el.bleStatus.textContent = `Connected to ${name}. Hold it level, then tilt to steer.`;
+        button.textContent = 'CONNECTED';
+        el.thumb.classList.add('ble');
+      } catch (err) {
+        button.disabled = false;
+        el.bleStatus.className = 'status err';
+        // NotFoundError covers both "user cancelled" and "the list was empty",
+        // which the page cannot tell apart, so each transport explains its own
+        // most likely cause.
+        el.bleStatus.textContent = err.name === 'NotFoundError' ? mod.notFoundHint : err.message;
+      }
+    });
+
+    controller.addEventListener('disconnected', () => {
+      button.disabled = false;
+      button.textContent = idleLabel;
+      el.bleStatus.className = 'status err';
+      el.bleStatus.textContent = 'Controller disconnected. Keyboard still works.';
+      el.thumb.classList.remove('ble');
+    });
   }
 
-  el.connect.addEventListener('click', async () => {
-    el.connect.disabled = true;
-    el.bleStatus.className = 'status';
-    el.bleStatus.textContent = 'Scanning…';
-    try {
-      const name = await controller.connect();
-      el.bleStatus.className = 'status ok';
-      el.bleStatus.textContent = `Connected to ${name}. Hold it level, then tilt to steer.`;
-      el.connect.textContent = 'CONNECTED';
-      el.thumb.classList.add('ble');
-    } catch (err) {
-      el.connect.disabled = false;
-      el.bleStatus.className = 'status err';
-      // NotFoundError covers both "user cancelled" and "the list was empty",
-      // which the page cannot tell apart -- but an empty list almost always
-      // means something else is holding the connection, since a peripheral
-      // stops advertising while connected.
-      el.bleStatus.textContent = err.name === 'NotFoundError'
-        ? 'No controller picked. If the list was empty: the board only talks to '
-          + 'one thing at a time, so disconnect it from any other Bluetooth page '
-          + 'or the OS settings, and check it is still advertising.'
-        : err.message;
-    }
-  });
-
-  controller.addEventListener('disconnected', () => {
-    el.connect.disabled = false;
-    el.connect.textContent = 'CONNECT CONTROLLER';
-    el.bleStatus.className = 'status err';
-    el.bleStatus.textContent = 'Controller disconnected. Keyboard still works.';
-    el.thumb.classList.remove('ble');
-  });
+  wireLink(el.connect, controllers.ble, ble, 'Scanning…', 'CONNECT CONTROLLER');
+  if (el.connectUsb) {
+    wireLink(el.connectUsb, controllers.usb, usb, 'Choose the port…', 'CONNECT VIA USB');
+  }
 
   /* -------------------------------- Flow --------------------------------- */
   function startRun() {

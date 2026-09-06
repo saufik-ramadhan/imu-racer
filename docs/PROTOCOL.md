@@ -3,8 +3,8 @@
 The contract between the firmware and the browser. It is defined in exactly two
 places, and they must be changed together:
 
-- `blink/main/ble_controller.c` — the peripheral
-- `imu-racer/src/ble.js` — the Web Bluetooth client
+- `firmware/esp32s3/main/ble_controller.c` — the peripheral
+- `web/src/ble.js` — the Web Bluetooth client
 
 ## GATT layout
 
